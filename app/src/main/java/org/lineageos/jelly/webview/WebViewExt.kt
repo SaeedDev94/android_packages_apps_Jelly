@@ -120,7 +120,7 @@ class WebViewExt @JvmOverloads constructor(
             desktopUserAgent = matcher.group(1)!! + DESKTOP_DEVICE + matcher.group(3)!!
                 .replace(" Mobile ", " ")
                 .replace(" Version/4.0 ", " ")
-            settings.userAgentString = mobileUserAgent
+            // settings.userAgentString = mobileUserAgent
         } else {
             Log.e(TAG, "Couldn't parse the user agent")
             mobileUserAgent = settings.userAgentString
@@ -129,6 +129,8 @@ class WebViewExt @JvmOverloads constructor(
         if (sharedPreferencesExt.doNotTrackEnabled) {
             this.requestHeaders[HEADER_DNT] = "1"
         }
+
+        settings.userAgentString = DESKTOP_USER_AGENT_FALLBACK
 
         if (settings.javaScriptEnabled) {
             addJavascriptInterface(
@@ -190,7 +192,7 @@ class WebViewExt @JvmOverloads constructor(
         set(desktopMode) {
             this.desktopMode = desktopMode
             val settings = settings
-            settings.userAgentString = if (desktopMode) desktopUserAgent else mobileUserAgent
+            // settings.userAgentString = if (desktopMode) desktopUserAgent else mobileUserAgent
             settings.useWideViewPort = desktopMode
             settings.loadWithOverviewMode = desktopMode
             reload()
@@ -200,7 +202,7 @@ class WebViewExt @JvmOverloads constructor(
         private const val TAG = "WebViewExt"
         private const val DESKTOP_DEVICE = "X11; Linux x86_64"
         private const val DESKTOP_USER_AGENT_FALLBACK =
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36"
         private const val HEADER_DNT = "DNT"
 
         fun newInstance(
